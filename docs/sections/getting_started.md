@@ -1,25 +1,85 @@
 # Getting Started
 
 Popper is a workflow execution engine based on [Github Actions][gha] 
-written in Python. With Popper, you can execute workflows locally on 
-your machine without having to use Github's platform. To get started, 
-we first need to install the CLI tool using [Pip][pip]:
+(GHA) written in Python. With Popper, you can execute [HCL 
+syntax][ghalang] workflows locally on your machine without having 
+to use Github's platform.
+
+## Installation
+
+We provide a [`pip`][pip] package for Popper. To install simply run:
 
 ```bash
 pip install popper
 ```
 
-Show which version you installed:
+Depending on your Python distribution or specific environment 
+configuration, using [Pip][pip] might not be possible (e.g. you need 
+administrator privileges) or using `pip` directly might incorrectly 
+install Popper. We **highly recommend** to install Popper in a Python 
+virtual environment using [virtualenv][venv]. The following 
+installation instructions assume that `virtualenv` is installed in 
+your environment (see [here for more][venv-install]). Once 
+`virtualenv` is available in your machine, we proceed to create a 
+folder where we will place the Popper virtual environment:
+
+```bash
+# create a folder for storing virtual environments
+mkdir $HOME/virtualenvs
+```
+
+We then create a `virtualenv` for Popper. This will depend on the 
+method with which `virtualenv` was installed. Here we present three 
+alternatives that cover most of these alternatives:
+
+```bash
+# 1) virtualenv installed via package, e.g.:
+# - apt install virtualenv (debian/ubuntu)
+# - yum install virtualenv (centos/redhat)
+# - conda install virtualenv (conda)
+# - pip install virtualenv (pip)
+virtualenv $HOME/virtualenvs/popper
+
+# 2) virtualenv installed via Python 3.6+ built-in module
+python -m venv $HOME/virtualenvs/popper
+```
+
+> **NOTE**: in the case of `conda`, we recommend the creation of a new 
+> environment before `virtualenv` is installed in order to avoid 
+> issues with packages that might have been installed previously.
+
+We then load the environment we just created above:
+
+```bash
+source $HOME/virtualenvs/popper/bin/activate
+```
+
+Finally, we install Popper in this environment using `pip`:
+
+```bash
+pip install popper
+```
+
+To test all is working as it should, we can show the version we 
+installed:
 
 ```bash
 popper version
 ```
 
-To get a list of available commands:
+And to get a list of available commands:
 
 ```bash
 popper --help
 ```
+
+> **NOTE**: given that we are using `virtualenv`, once the shell 
+session is ended (when we close the terminal window or tab), the 
+environment is unloaded and newer sessions (new window or tab) will 
+not have the `popper` command available in the `PATH` variable. In 
+order to have the environment loaded again we need to execute the 
+`source` command (see above). In the case of `conda` we need to load 
+the Conda environment (`conda activate` command).
 
 ## Create a Git repository
 
@@ -54,8 +114,9 @@ git commit -m 'Adding example workflow.'
 ```
 
 To learn more about how to modify this workflow in order to fit your 
-needs, please take a look at the [official documentation][ghadocs], 
-read [this tutorial][ghatut], or take a look at [some examples][ex].
+needs, please take a look at the [workflow language 
+documentation](gha_workflows.md) read [this tutorial][ghatut], or take 
+a look at [some examples][ex].
 
 ## Run your workflow
 
@@ -111,11 +172,14 @@ git push
 
 Go to the TravisCI website to see your experiments being executed.
 
+[ghalang]: https://github.com/actions/workflow-parser/blob/master/language.md
 [pip]: https://pip.pypa.io/en/stable/
-[ghadocs]: https://developer.github.com/actions/managing-workflows/creating-and-cancelling-a-workflow/
+[wfdocs]: gha_workflows.md
 [ghatut]: https://scotch.io/bar-talk/introducing-github-actions#toc-how-it-works
 [ex]: https://github.com/popperized/popper-examples
 [gh-create]: https://help.github.com/articles/create-a-repo/
 [cisetup]: https://docs.travis-ci.com/user/getting-started/#Prerequisites
 [ciactivate]: https://docs.travis-ci.com/user/getting-started/#To-get-started-with-Travis-CI
 [gha]: https://github.com/features/actions
+[venv]: https://virtualenv.pypa.io/en/latest/
+[venv-install]: https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#installing-virtualenv

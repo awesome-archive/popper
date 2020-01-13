@@ -1,13 +1,9 @@
 #!/bin/bash
 set -ex
 # shellcheck source=./ci/test/common
-source ./common
+source ./ci/test/common
 init_test_repo
 cd "$test_repo_path"
-
-PY_VERSION=$( (python --version) 2>&1)
-
-if [[ $PY_VERSION != *"Python 2.7"* ]]; then
 
 # workflow with actions expected to execute correctly.
 cat <<EOF > main.workflow
@@ -21,17 +17,17 @@ action "one" {
 }
 
 action "two" {
-  uses = "actions/bin/curl@master"
+  uses = "popperized/bin/curl@master"
   args = ["google.com"]
 }
 
 action "three" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   runs = ["sh", "-c", "echo Hello from sh"]
 }
 
 action "four" {
-  uses = "actions/npm@master"
+  uses = "popperized/npm@master"
   args = ["--version"]
 }
 
@@ -63,17 +59,17 @@ action "one" {
 }
 
 action "two" {
-  uses = "actions/bin/curl@master"
+  uses = "popperized/bin/curl@master"
   args = ["google.com"]
 }
 
 action "three" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   runs = ["sh", "-c", "echo Hello from sh"]
 }
 
 action "four" {
-  uses = "actions/npm@master"
+  uses = "popperized/npm@master"
   args = ["--vesrsion"]
 }
 
@@ -89,8 +85,7 @@ action "stage_one" {
 }
 EOF
 
-! popper run --parallel --runtime "$RUNTIME"
+(! popper run --parallel --runtime "$RUNTIME")
 echo "Some actions failed as expected !"
-fi
 
 echo "Test PARALLEL passed."

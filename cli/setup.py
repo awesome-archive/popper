@@ -14,14 +14,13 @@ setup(
     packages=['popper', 'popper.commands'],
     include_package_data=True,
     install_requires=[
+        'python-vagrant',
         'requests',
         'GitPython',
-        'future; python_version == "2.7"',
         'spython',
         'click',
         'pyhcl',
         'pyyaml',
-        'futures; python_version == "2.7"',
         'docker'
     ],
     extras_require={

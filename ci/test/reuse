@@ -1,9 +1,20 @@
 #!/bin/bash
 set -ex
 # shellcheck source=./ci/test/common
-source ./common
+source ./ci/test/common
 init_test_repo
 cd "$test_repo_path"
+
+# generate the workfow id
+cat <<EOF > id.py
+import os
+import hashlib
+identifier = str(os.getuid()) + "_main.workflow"
+id = str(hashlib.md5(identifier.encode()).hexdigest())
+print(id)
+EOF
+
+ID=$(python id.py 2>&1)
 
 cat <<EOF > main.workflow
 workflow "test" {
@@ -11,7 +22,7 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
@@ -20,18 +31,18 @@ popper run
 
 docker ps -a | grep 'popper_show_env'
 
-docker cp ./main.workflow popper_show_env_b5a7c82838362d0281518262189f203e:/
+docker cp ./main.workflow popper_show_env_"$ID":/
 
 popper run --reuse
 
 # the file we copied above should still be there
-docker cp popper_show_env_b5a7c82838362d0281518262189f203e:/main.workflow main.workflow
+docker cp popper_show_env_"$ID":/main.workflow main.workflow
 
 # now we re-run without --reuse so a new container is created
 popper run
 
 # so the file shouldn't be there
-! docker cp popper_show_env_b5a7c82838362d0281518262189f203e:/main.workflow /tmp/main.workflow
+(! docker cp popper_show_env_"$ID":/main.workflow /tmp/main.workflow)
 
 # lastly, test reuse for a single action
 popper run --reuse 'show env'
@@ -46,18 +57,18 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
   env = {
-    TOOL_NAME="popper"
+    MESSAGE = "message in a bottle"
   }
 }
 EOF
 
 popper run --runtime "$RUNTIME" > output
+
 grep -q "README.md" output
 grep -q "main.workflow" output
-
 
 cat <<EOF > main.workflow
 workflow "test" {
@@ -65,16 +76,13 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
-  runs = ["sh", "-c", "echo \$TOOL_NAME"]
+  uses = "popperized/bin/sh@master"
+  runs = ["sh", "-c", "echo \$MESSAGE"]
 }
 EOF
 
 popper run --reuse --runtime "$RUNTIME" > output
-grep  -q "popper" output
-! grep -q "README.md" output
-! grep -q "main.workflow" output
-
+grep  -q "message in a bottle" output
 
 cat <<EOF > main.workflow
 workflow "test" {
@@ -82,12 +90,12 @@ workflow "test" {
 }
 
 action "check file" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   runs = ["sh", "-c", "echo 'Hello from Popper 2.x !' > /usr/local/popper.file"]
 }
 EOF
 
-popper run --runtime "$RUNTIME" > output
+popper run --runtime "$RUNTIME" > /dev/null
 
 cat <<EOF > main.workflow
 workflow "test" {
@@ -95,7 +103,7 @@ workflow "test" {
 }
 
 action "check file" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   runs = ["sh", "-c", "cat /usr/local/popper.file"]
 }
 EOF

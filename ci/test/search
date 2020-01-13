@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 # shellcheck source=./ci/test/common
-source ./common
+source ./ci/test/common
 init_test_repo
 cd "$test_repo_path"
 
@@ -19,14 +19,14 @@ grep -q 'popperized/figshare/create' output
 # test include readme feature
 popper search --include-readme fig > output
 grep -q 'popperized/ansible' output
-grep -q 'actions/npm' output
+grep -q 'popperized/spack' output
 
 # test no actions found
 popper search abc > output
 grep -q 'No matching actions found.' output
 
 # test unable to find action metadata
-! popper info abc
+(! popper info abc)
 
 # test info not found
 popper info apex/actions/go > output

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 # shellcheck source=./ci/test/common
-source ./common
+source ./ci/test/common
 init_test_repo
 cd "$test_repo_path"
 
@@ -25,17 +25,17 @@ workflow "test three" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 
 action "show env one" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## workflow block present with unknown attributes.
 
@@ -47,12 +47,12 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## workflow block not present
 cat <<EOF > main.workflow
@@ -61,12 +61,12 @@ weeeorkflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## workflow block present
 cat <<EOF > main.workflow
@@ -75,7 +75,7 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
@@ -89,12 +89,12 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## resolves attribute present but wrong type
 cat <<EOF > main.workflow
@@ -103,12 +103,12 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## resolves attribute present and correct type
 cat <<EOF > main.workflow
@@ -117,7 +117,7 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
@@ -132,12 +132,12 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## on attribute present and correct type
 cat <<EOF > main.workflow
@@ -147,7 +147,7 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
@@ -165,17 +165,17 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## action block present with unknown attributes
 cat <<EOF > main.workflow
@@ -184,14 +184,14 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
   attr1 = "attr1"
   attr2 = "attr2"
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## action block not present
 cat <<EOF > main.workflow
@@ -200,12 +200,12 @@ workflow "test" {
 }
 
 acccction "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## action block present
 cat <<EOF > main.workflow
@@ -214,7 +214,7 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
@@ -228,7 +228,7 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 
@@ -237,7 +237,7 @@ action "show env one" {
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## uses attribute present but wrong type
 cat <<EOF > main.workflow
@@ -251,7 +251,7 @@ action "show env" {
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## uses attribute present and correct type
 cat <<EOF > main.workflow
@@ -260,7 +260,7 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
@@ -274,13 +274,13 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   needs = 12
   args = "ls"
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## needs attribute present and correct type
 cat <<EOF > main.workflow
@@ -289,12 +289,12 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 
 action "show env again" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   needs = ["show env"]
   args = "ls"
 }
@@ -309,12 +309,12 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   runs = 123
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## runs attribute present and correct type
 cat <<EOF > main.workflow
@@ -323,7 +323,7 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
 }
 EOF
 
@@ -336,7 +336,7 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = {
     FIRST_NAME  = "Mona"
     MIDDLE_NAME = "Lisa"
@@ -345,7 +345,7 @@ action "show env" {
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## args attribute present and correct type
 cat <<EOF > main.workflow
@@ -354,7 +354,7 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF
@@ -368,22 +368,22 @@ workflow "test" {
 }
 
 action "show env" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
   env = [1, 2]
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## env attribute present and correct type
 cat <<EOF > main.workflow
 workflow "test" {
-  resolves = "show env"
+  resolves = "test env-good"
 }
 
-action "show env" {
-  uses = "actions/bin/sh@master"
+action "test env-good" {
+  uses = "popperized/bin/sh@master"
   args = "ls"
   env = {
     F_NAME = "F_NAME",
@@ -397,28 +397,30 @@ popper run --dry-run --runtime "$RUNTIME"
 ## secrets attribute present but wrong type
 cat <<EOF > main.workflow
 workflow "test" {
-  resolves = "show env"
+  resolves = "secrets wrong"
 }
 
-action "show env" {
-  uses = "actions/bin/sh@master"
+action "secrets wrong" {
+  uses = "popperized/bin/sh@master"
   args = "ls"
-  secrets = "123"
+  secrets = {
+    key =  "value"
+  }
 }
 EOF
 
-! popper run --dry-run --runtime "$RUNTIME"
+(! popper run --dry-run --runtime "$RUNTIME")
 
 ## secrets attribute present and correct type
 export F_NAME=F_NAME
 export L_NAME=L_NAME
 cat <<EOF > main.workflow
 workflow "test" {
-  resolves = "show env"
+  resolves = "secrets good"
 }
 
-action "show env" {
-  uses = "actions/bin/sh@master"
+action "secrets good" {
+  uses = "popperized/bin/sh@master"
   args = "ls"
   env = {
     F_NAME = "F_NAME",
@@ -437,12 +439,12 @@ workflow "test" {
 }
 
 action "reachable" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 
 action "unreachable" {
-  uses = "actions/bin/sh@master"
+  uses = "popperized/bin/sh@master"
   args = "ls"
 }
 EOF

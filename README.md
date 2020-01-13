@@ -12,25 +12,26 @@
 </p>
 
 Popper is a [Github Actions](https://github.com/features/actions) 
-(GHA) execution engine that allows you to run GHA workflows locally on 
-your machine and on CI services. The goal of this project is to 
-provide the following functionality:
+(GHA) execution engine for running [HCL-syntax GHA workflows][ghawf] 
+locally on your machine and on CI services. The goal of this project 
+is to provide the following functionality:
 
   * **Continuous integration**. Generate configuration files for 
     distinct CI services, allowing users to execute GHA workflows on 
     Travis, Jenkins, Gitlab or Circle. [See here for more][ci].
-  * **Other Runtimes**. In addition to Docker, Popper can execute 
-    workflows in other container runtimes. We currently support 
-    [Singularity](https://sylabs.io/) and are working on adding 
-    [Podman](https://podman.io) and [Vagrant](https://vagrantup.com/) 
-    to the list (see [here for more][runtimedocs]).
-  * **Action search**. Provide with a [searchable 
-    catalog][search] of publicly available actions so that users can 
-    easily find what already exists (do not re-invent the wheel!).
+  * **Alternative Container Runtimes**. In addition to Docker, Popper 
+    can execute workflows in other runtimes by interacting with other 
+    container engines. We currently support [Singularity][sylabs], as 
+    well as running Docker inside virtual machines (via 
+    [Vagrant][vagrant]). We are working on adding 
+    [Podman](https://podman.io) to the list.
+  * **Action search**. Provide with a [searchable catalog][search] of 
+    publicly available actions so that users can easily find which 
+    actions already exist (do not re-invent the wheel!).
   * **Scaffolding**. Aid in the implementation of [new actions and 
     workflows][scaffold].
   * **Action library**. Provide with a list of reusable actions and 
-    example workflows <https://github.com/popperized>.
+    example workflows at <https://github.com/popperized>.
 
 -----
 
@@ -44,8 +45,8 @@ This repository contains:
 
 ## Installation
 
-To run workflows, you need to have a container runtime installed 
-([Docker][docker] and [Singularity][singularity] are currently 
+To run workflows, you need to have Git and a container runtime installed
+([Docker][docker], [Singularity][singularity] and [Vagrant](https://vagrantup.com/) are currently
 supported). To install Popper you can use 
 [`pip`](https://pypi.python.org/pypi). We recommend to install in a 
 virtual environment (see [here][venv] for more on `virtualenv`). To 
@@ -90,4 +91,6 @@ us](mailto:ivo@cs.ucsc.edu).
 [docs]: https://popper.readthedocs.io/en/latest/
 [gh-pages]: https://github.com/systemslab/popper/tree/gh-pages
 [scaffold]: https://popper.readthedocs.io/en/latest/sections/getting_started.html#create-a-workflow
-[runtimedocs]: https://popper.readthedocs.io/en/latest/sections/extensions.html#other-runtimes
+[ghawf]: docs/sections/gha_workflows.md
+[sylabs]: https://sylabs.io/
+[vagrant]: https://vagrantup.com/
